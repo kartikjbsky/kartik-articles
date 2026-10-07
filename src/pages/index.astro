@@ -6,10 +6,13 @@ import { site } from "../config";
 const articles = (await getCollection("articles"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
+
 <BaseLayout title={site.title}>
   <section class="intro">
     <p class="eyebrow">PERSONAL WRITINGS</p>
-    <h1>Notes, essays<br />& observations.</h1>
+
+    <h1>Notes, articles, poems<br />& observations.</h1>
+
     <p class="intro-copy">
       A quiet place for things I want to think about, understand,
       and put into words.
@@ -18,17 +21,30 @@ const articles = (await getCollection("articles"))
 
   <section class="article-list" aria-label="Articles">
     {articles.map((article) => (
-      <a class="article-card" href={`${import.meta.env.BASE_URL}articles/${article.id}/`}>
+      <a
+        class="article-card"
+        href={`${import.meta.env.BASE_URL}articles/${article.slug}/`}
+      >
         <div class="article-meta">
           <time datetime={article.data.date.toISOString()}>
             {article.data.date.toLocaleDateString("en-GB", {
-              day: "2-digit", month: "short", year: "numeric"
+              day: "2-digit",
+              month: "short",
+              year: "numeric"
             })}
           </time>
-          {article.data.readTime && <span>{article.data.readTime}</span>}
+
+          {article.data.readTime && (
+            <span>{article.data.readTime}</span>
+          )}
         </div>
+
         <h2>{article.data.title}</h2>
-        {article.data.description && <p>{article.data.description}</p>}
+
+        {article.data.description && (
+          <p>{article.data.description}</p>
+        )}
+
         <span class="read-link">Read →</span>
       </a>
     ))}
